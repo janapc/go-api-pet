@@ -1,0 +1,175 @@
+basePath: /
+definitions:
+  controllers.message:
+    properties:
+      message:
+        type: string
+    type: object
+  gorm.DeletedAt:
+    properties:
+      time:
+        type: string
+      valid:
+        description: Valid is true if Time is not NULL
+        type: boolean
+    type: object
+  models.Pet:
+    properties:
+      breed:
+        type: string
+      createdAt:
+        type: string
+      deletedAt:
+        $ref: '#/definitions/gorm.DeletedAt'
+      id:
+        type: integer
+      name:
+        type: string
+      observation:
+        type: string
+      size:
+        type: string
+      updatedAt:
+        type: string
+    type: object
+host: localhost:3000
+info:
+  contact:
+    name: Janaina Pedrina
+  description: This is to manage registered pets in the application
+  title: Pet API
+  version: "1.0"
+paths:
+  /api/v1/pets:
+    get:
+      consumes:
+      - application/json
+      description: List all pets
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              $ref: '#/definitions/models.Pet'
+            type: array
+      summary: List all pets
+      tags:
+      - pets
+    post:
+      consumes:
+      - application/json
+      description: Add a new pet
+      parameters:
+      - description: Model of pet
+        in: body
+        name: pet
+        required: true
+        schema:
+          $ref: '#/definitions/models.Pet'
+      produces:
+      - application/json
+      responses:
+        "201":
+          description: Created
+          schema:
+            $ref: '#/definitions/models.Pet'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.message'
+      summary: Add a new pet
+      tags:
+      - pets
+  /api/v1/pets/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: Remove the registration of a pet by Id
+      parameters:
+      - description: Id of pet
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "204":
+          description: No Content
+      summary: Remove the registration of a pet
+      tags:
+      - pets
+    get:
+      consumes:
+      - application/json
+      description: List a pet by Id
+      parameters:
+      - description: id of pet
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Pet'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/controllers.message'
+      summary: List a pet
+      tags:
+      - pets
+    patch:
+      consumes:
+      - application/json
+      description: Update a new pet by Id
+      parameters:
+      - description: Model of pet
+        in: body
+        name: pet
+        required: true
+        schema:
+          $ref: '#/definitions/models.Pet'
+      - description: Id of pet
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Pet'
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/controllers.message'
+        "404":
+          description: Not Found
+          schema:
+            $ref: '#/definitions/controllers.message'
+      summary: Update a new pet
+      tags:
+      - pets
+  /api/v1/pets/health:
+    get:
+      consumes:
+      - application/json
+      description: Check the API is on
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+      summary: Check the API
+      tags:
+      - pets
+swagger: "2.0"
