@@ -98,7 +98,7 @@ func TestNotFindOnePetById(t *testing.T) {
 	assert.Equal(t, "Pet is not registered", messageResponse.Message)
 }
 
-func TestDeleteStudent(t *testing.T) {
+func TestDeleteOnePet(t *testing.T) {
 	database.Connection()
 	AddPetMock()
 	r := SetupRouters()
